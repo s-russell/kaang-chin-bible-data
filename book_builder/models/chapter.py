@@ -1,10 +1,9 @@
 class Chapter:
-    number = -1
-    title = ''
-    verses = []
 
     def __init__(self, number):
         self.number = number
+        self.title = ''
+        self.verses = []
 
     def add_verse(self, verse):
         self.verses.append(verse)

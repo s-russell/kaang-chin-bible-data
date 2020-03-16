@@ -1,6 +1,6 @@
 import docx2txt
 import re
-from models.verse import Verse
+from book_builder.models.verse import Verse
 
 
 def parse_verse_chunk(chunk):
@@ -9,9 +9,11 @@ def parse_verse_chunk(chunk):
 
 
 def main():
-    johan_txt = docx2txt.process('docx/Johan.docx')
-    lines = [line.strip() for line in johan_txt.split('\n\n') if line.strip() != '']
-    for line in lines: print(line)
+    johan_txt = docx2txt.process('docx_normalized/Johan.docx')
+    lines = [line.strip()
+             for line in johan_txt.split('\n\n') if line.strip() != '']
+    for line in lines:
+        print(line + '\n')
 
 
 if __name__ == '__main__':
