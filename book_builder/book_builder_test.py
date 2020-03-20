@@ -6,7 +6,6 @@ def test_book_builder_creation():
     assert bb.book.title == "Matthew"
     assert bb
     assert bb.state == BookBuilderState.ENUMERATING_CHAPTER
-    assert bb.last_line_type == LineType.BOOK_TITLE
 
 
 def test_book_builder_first_chapter_title():
@@ -44,6 +43,39 @@ def test_collecting_verses():
     bb.process(verse_chunk_2)
     assert len(bb.current_chapter.verses) == 7
     assert bb.current_chapter.get_verse(6).text == 'Another verse over here.'
+
+
+def test_adding_verse_title():
+    bb = get_builder_for_state(BookBuilderState.COLLECTING_VERSES)
+    verse_title1 = 'Title for verses'
+    verse_title2 = 'subtitle for verses'
+    verse_chunk_1 = '3This is a verse. 4Another verse here 5This one ends "with a quote."'
+    assert bb.current_verse_title_lines == []
+    bb.process(verse_title1)
+    assert bb.state == BookBuilderState.TITLING_VERSE
+    assert bb.current_verse_title_lines == [verse_title1]
+    bb.process(verse_title2)
+    assert bb.state == BookBuilderState.TITLING_VERSE
+    assert bb.current_verse_title_lines == [verse_title1, verse_title2]
+    bb.process(verse_chunk_1)
+    assert bb.state == BookBuilderState.COLLECTING_VERSES
+    assert len(bb.current_chapter.verses) == 5
+    assert bb.current_chapter.get_verse(3).title == f"{verse_title1}\n{verse_title2}"
+    assert bb.current_verse_title_lines == []
+
+
+def test_start_new_chapter():
+    bb = get_builder_for_state(BookBuilderState.COLLECTING_VERSES)
+    bb.process('2')
+    assert len(bb.book.chapters) == 1
+    assert bb.current_chapter.number == 2
+    assert bb.state == BookBuilderState.TITLING_CHAPTER
+
+
+def test_build_book():
+    bb = get_builder_for_state(BookBuilderState.COLLECTING_VERSES)
+    book = bb.build()
+    assert len(book.chapters[0].verses) == 2
 
 
 def test_classify_number_test():
