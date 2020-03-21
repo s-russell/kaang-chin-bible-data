@@ -48,7 +48,8 @@ class BookBuilder:
             self.state = BookBuilderState.TITLING_CHAPTER
 
         elif line_type == LineType.CHAPTER_TITLE:
-            self.current_chapter.title = text
+            current = self.current_chapter.title
+            self.current_chapter.title += ('\n' if current else '') + text
 
         elif line_type == LineType.VERSE_CHUNK:
             verses = parse_verse_chunk(text)

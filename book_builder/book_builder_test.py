@@ -17,12 +17,16 @@ def test_book_builder_first_chapter_title():
 
 
 def test_add_chapter_title():
-    next_line = "Some chapter title"
+    title_line_1 = "Some chapter title"
     bb = get_builder_for_state(BookBuilderState.TITLING_CHAPTER)
-    assert bb.classify(next_line) == LineType.CHAPTER_TITLE
-    bb.process(next_line)
+    assert bb.classify(title_line_1) == LineType.CHAPTER_TITLE
+    bb.process(title_line_1)
     assert bb.state == BookBuilderState.TITLING_CHAPTER
-    assert bb.current_chapter.title == next_line
+    assert bb.current_chapter.title == title_line_1
+    title_line_2 = 'chapter subtitle'
+    bb.process(title_line_2)
+    assert bb.state == BookBuilderState.TITLING_CHAPTER
+    assert bb.current_chapter.title == f"{title_line_1}\n{title_line_2}"
 
 
 def test_add_first_verse_without_chapter_title():
