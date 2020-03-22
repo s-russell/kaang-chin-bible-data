@@ -35,3 +35,15 @@ create table verse
     foreign key (chapter_id) references chapter (id)
 );
 
+create view bible as
+    select b.name,
+       case when v.number = 1 then c.title else v.title end title,
+       c.number                                             chapter,
+       v.number                                             verse,
+       v.text
+from book b,
+     chapter c,
+     verse v
+where v.chapter_id = c.id
+  and c.book_id = b.id;
+
