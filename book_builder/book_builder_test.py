@@ -64,7 +64,8 @@ def test_adding_verse_title():
     bb.process(verse_chunk_1)
     assert bb.state == BookBuilderState.COLLECTING_VERSES
     assert len(bb.current_chapter.verses) == 5
-    assert bb.current_chapter.get_verse(3).title == f"{verse_title1}\n{verse_title2}"
+    assert bb.current_chapter.get_verse(
+        3).title == f"{verse_title1}\n{verse_title2}"
     assert bb.current_verse_title_lines == []
 
 
