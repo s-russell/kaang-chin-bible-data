@@ -204,7 +204,8 @@ def validate_statistics(bl):
                                'expected': expected_verse_count, 'observed': observed_verse_count})
     if errors:
         for e in errors:
-            print(e)
+            print(
+                f"{e['book']} {e['chapter']}\t\texpected: {e['expected']} verses but got {e['observed']}")
         sys.exit(2)
 
 
