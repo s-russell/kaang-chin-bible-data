@@ -3,7 +3,7 @@ from .book_builder import *
 
 def test_book_builder_creation():
     bb = BookBuilder("Matthew")
-    assert bb.book.title == "Matthew"
+    assert bb.book.name == "Matthew"
     assert bb
     assert bb.state == BookBuilderState.ENUMERATING_CHAPTER
 
