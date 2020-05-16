@@ -14,4 +14,5 @@ class Chapter:
         self.verses.sort(key=lambda v: v.number)
 
     def get_verse(self, number):
-        return self.verses[number - 1] if number <= len(self.verses) else None
+        verses = [v for v in self.verses if v.number == number]
+        return verses[0] if verses else None

@@ -14,9 +14,8 @@ class BibleParser:
 
     def __init__(self, language):
         self.bible = Bible(language)
-        self.last_line_type = None
-        self.last_line = None
         self.current_book = None
+        self.current_chapter = None
 
     def classify(self, line_text):
         line_type = None
@@ -35,12 +34,20 @@ class BibleParser:
         match = pattern.match(text)
         return True if match else False
 
-    def process(self, line):
-        line_type = self.classify(line)
+    def parse(self, lines):
+        classified_lines = [(line, self.classify(line)) for line in lines]
 
-        if line_type == LineType.numbered:
+        for i in range(len(classified_lines)):
+            line, line_type = classified_lines[i]
+            next_line, next_line_type = classified_lines[i + 1] if i < (
+                len(classified_lines) - 1) else (None, None)
 
-    def build(self):
-        if self.current_book:
-            self.bible.add_book(self.current_book)
+            if line_type == LineType.text and next_line_type == LineType.numbered_text:
+                self.begin_new_book(line)
+
         return self.bible
+
+    def begin_new_book(self, book_title):
+        if(self.current_book):
+            self.bible.books.append(self.current_book)
+        self.current_book = Book(book_title)

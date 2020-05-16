@@ -5,4 +5,4 @@ class Bible:
         self.language = language
 
     def add_book(self, book):
-        self.book.append(book)
+        self.books.append(book)
