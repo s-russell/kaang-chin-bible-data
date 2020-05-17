@@ -23,7 +23,7 @@ book_data = [
         'chapter_count': 24,
         'verses_counts': get_numbers('80	52	38	44	39	49	50	56	62	42	54	59	35	35	32	31	37	43	48	47	38	71	56	53')
     }},
-    {'file': 'Johan', 'name': 'Johan', 'stats': {
+    {'file': 'Johan', 'name': 'John', 'stats': {
         'chapter_count': 21,
         'verses_counts': get_numbers('51	25	36	54	47	71	53	59	41	42	57	50	38	31	27	33	26	40	42	31	25')
     }},
@@ -35,11 +35,11 @@ book_data = [
         'chapter_count': 16,
         'verses_counts': get_numbers('32	29	31	25	21	23	25	39	33	21	36	21	14	23	33	27')
     }},
-    {'file': '1Korintu', 'name': '1 Korintu', 'stats': {
+    {'file': '1Korintu', 'name': '1 Korin', 'stats': {
         'chapter_count': 16,
         'verses_counts': get_numbers('31	16	23	21	13	20	40	13	27	33	34	31	13	40	58	24')
     }},
-    {'file': '2Korintu', 'name': '2 Korintu', 'stats': {
+    {'file': '2Korintu', 'name': '2 Korin', 'stats': {
         'chapter_count': 13,
         'verses_counts': get_numbers('24	17	18	18	21	18	16	24	15	18	33	21	13')
     }},
@@ -83,11 +83,11 @@ book_data = [
         'chapter_count': 1,
         'verses_counts': get_numbers('25')
     }},
-    {'file': 'HEBREW', 'name': 'Hebrew', 'stats': {
+    {'file': 'HEBREW', 'name': 'Hebrews', 'stats': {
         'chapter_count': 13,
         'verses_counts': get_numbers('14	18	19	16	14	20	28	13	28	39	40	29	25')
     }},
-    {'file': 'JAME', 'name': 'Jame', 'stats': {
+    {'file': 'JAME', 'name': 'James', 'stats': {
         'chapter_count': 5,
         'verses_counts': get_numbers('27	26	18	17	20')
     }},
