@@ -1,8 +1,6 @@
 from bible_parser import BibleParser, LineType
 import pytest
 
-book1, book2, book3 = None, None, None
-
 
 def test_line_classification():
     test_cases = {
@@ -18,8 +16,8 @@ def test_line_classification():
         assert bp.classify(line_text) == line_type
 
 
-@pytest.fixture(autouse=True)
-def setup():
+@pytest.fixture(scope='class')
+def bible_parser_test_setup(request):
     lines = [
         'MATE',
         '1',
@@ -69,32 +67,34 @@ def setup():
 
     bible = bp.parse(lines)
     books = bp.bible.books
-    if len(books) > 2:
-        book1, book2, book3 = bp.bible.books
+    request.cls.book1 = books[0]
+    request.cls.book2 = books[1]
+    request.cls.book3 = books[2]
+    request.cls.lines = lines
 
 
-def test_book_parsing():
+@pytest.mark.usefixtures('bible_parser_test_setup')
+class TestBibleParser:
 
-    assert book1.name == 'MATE'
-    assert book2.name == 'Mark'
-    assert book3.name == '2 TIMOTHY'
+    def test_book_parsing(self):
 
+        assert self.book1.name == 'MATE'
+        assert self.book2.name == 'Mark'
+        assert self.book3.name == '2 TIMOTHY'
 
-def test_chapter_parsing():
+    def test_chapter_parsing(self):
 
-    assert len(book1.chapters) == 3
-    assert len(book2.chapters) == 2
-    assert len(book3.chapters) == 1
+        assert len(self.book1.chapters) == 2
+        assert len(self.book2.chapters) == 1
+        assert len(self.book3.chapters) == 1
 
+    def test_verse_enumeration(self):
+        assert len(self.book1.get_chapter(2).verses) == 23
+        assert len(self.book2.get_chapter(1).verses) == 45
 
-def test_verse_enumeration():
-    assert len(book1.get_chapter(2).verses) == 23
-    assert len(book2.get_chapter(1).verses) == 45
-
-
-def test_verse_titling():
-    assert book1.get_chapter(1).get_verse(1).title == lines[2]
-    assert book1.get_chapter(2).get_verse(13).title == lines[10]
-    assert book2.get_verse(1).get_verse(9).title == lines[20]
-    assert book2.get_chapter(1).get_verse(30).title == None
-    assert book3.get_verse(1).get_verse(1).title == None
+    def test_verse_titling(self):
+        assert self.book1.get_chapter(1).get_verse(1).title == self.lines[2]
+        assert self.book1.get_chapter(2).get_verse(13).title == self.lines[10]
+        assert self.book2.get_chapter(1).get_verse(9).title == self.lines[21]
+        assert self.book2.get_chapter(1).get_verse(30).title == None
+        assert self.book3.get_chapter(1).get_verse(1).title == None
