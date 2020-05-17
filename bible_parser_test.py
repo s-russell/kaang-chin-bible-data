@@ -67,6 +67,7 @@ def bible_parser_test_setup(request):
         'Betak Keilah Thapeknak',
         '3Ka pupaituei am bi mueihla, lungsin ciim awn a bi ka bipeek Fanpuhri ka boena doei kue, hnuep awn than ka taiirueah nangmih kan thuemloet u kue. 4Na mikphritui ka thuembaiah, yeinak awn ka biei hmokla, na muei kan hmuhlue ein kan omdamna kue. 5Na pei lois awn na nawi Eunice ah omma pueng, yumnak a tang nangah a awm ka thuem ein, khacawh nangah awmkue tila ka hmatkhai kue. 6Khatiein cawhei mawngah na fanna kut ka taihnak awn Fanpuhri ei pekduen ahuentat baiyeilah ngaihna oe. 7Hatulatiah Fanpuhri ein krihnak Hmueichra oeh nipe u ein, huham awn yongnak awn ningcang tu ni an peek u.',
         'Thuthang Hmok Oeh Kri',
+        'Second line of title text',
         '8Khatiein Aniei hamla thong ka krum awn nim Bawipa ei thuthang hmatsak nak ah oeh yak u, Fanpuhri ei huham awn thuthangni hamla khuikha nak ni hmuh puei u. 9Ni khui u ein, aciimla hringom meila an khue uh kha, nim bilawh la oeh kra ein, aruempueiah a mah ei ngaihtueh ein a boenak awn Jesu Chrih ah an peek uh ni. 10Khacawh ei boenak kha ni khui u pueng Jesu Chrih adanglaw nak awn tuboeih ah poeulaw kue. Ani ein sihnak phreh ein thuthangni awn hringnak awn aloet vang nak khuila ni cehpuei u kue. 11Khacawh ei hmokla kei, tikkhik peung awn thoei awn thutoek puenglah ni som  kue. 12Khacawh ei hmokla khaw vuuk khuikha ka hmuh, khanaphi oeh ka yak ein; hatulatiah hau ka yum ka hmat ein, khacawh ei hnuep hrila, a ni ka ap, ngoeng hning ngeila ka uepna ein, ani ka hmat ein ka yum kue.',
         'Yumnak Ah Betaknak',
         '13Jesu Chrih ah awm pueng yumnak awn yongnak awn kei ah nam yak thutangtu nuetnak lah nam taak toeih ei. 14Nangah kan appei khawh, nim khuiah awm pueng Hmueichra Ciim awn, ngoengsou voe. 15A kratang na hmat mueihla Asia rammei a van nein ni cehta u ein, am ni khuiah Phygelus awn Hermogenes thumnih kue. 16Bawipa ein Onesiphorus imkhuiah rennak pese, hatulatiah a ni ein ni thoeuyau sak ciein, sirui awn an khih uh lah oeh yak kue. 17Rom khawah a ompoetta thanna ein ni yap ein ni hmulaw kue. 18Khacawh ei hnueppa Bawipa ei lamei rennak a hmuh eila Bawipa ein ani pese! Efisa khawah hatukruk la kei an bom a vehla nam hmat kue.',
@@ -107,3 +108,5 @@ class TestBibleParser:
         assert self.book2.get_chapter(1).get_verse(9).title == self.lines[21]
         assert self.book2.get_chapter(1).get_verse(30).title == None
         assert self.book3.get_chapter(1).get_verse(1).title == None
+        assert self.book3.get_chapter(1).get_verse(
+            8).title == '\n'.join(self.lines[38:40])

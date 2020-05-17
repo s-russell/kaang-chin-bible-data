@@ -23,7 +23,7 @@ class BibleParser:
         self.bible = Bible(language)
         self.current_book = None
         self.current_chapter = None
-        self.current_verse_title = None
+        self.current_verse_title_lines = []
 
     def classify(self, line_text):
         line_type = None
@@ -53,14 +53,14 @@ class BibleParser:
             if line_type == LineType.text and next_line == '1':
                 self.begin_new_book(line)
             elif line_type == LineType.text:
-                self.current_verse_title = line
+                self.current_verse_title_lines.append(line)
             elif line_type == LineType.number:
                 self.begin_new_chapter(line)
             elif line_type == LineType.numbered_text:
                 verses = parse_verse_chunk(line)
-                if(self.current_verse_title):
-                    verses[0].title = self.current_verse_title
-                    self.current_verse_title = None
+                if(self.current_verse_title_lines):
+                    verses[0].title = '\n'.join(self.current_verse_title_lines)
+                    self.current_verse_title_lines = []
                 self.current_chapter.add_all_verses(verses)
 
         self.current_book.add_chapter(self.current_chapter)
