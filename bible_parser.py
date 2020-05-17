@@ -7,7 +7,7 @@ from models.verse import Verse
 
 
 def parse_verse_chunk(chunk):
-    verse_tuples = re.findall('(\\d+)(\\D+)', chunk)
+    verse_tuples = re.findall('(\\d+)([\\D0]+)', chunk)
     return [Verse(int(n), t.strip()) for n, t in verse_tuples]
 
 
@@ -30,7 +30,7 @@ class BibleParser:
 
         if line_text.isnumeric():
             line_type = LineType.number
-        elif self.check_pattern_match('^[123]? ?[a-zA-Z ]+$', line_text):
+        elif self.check_pattern_match('^[123]? ?[a-zA-Z0 ]+$', line_text):
             line_type = LineType.text
         elif self.check_pattern_match('^(\\d{1,3}[\\S ]+)+$', line_text):
             line_type = LineType.numbered_text
@@ -47,7 +47,7 @@ class BibleParser:
 
         for i in range(len(classified_lines)):
             line, line_type = classified_lines[i]
-            next_line, next_line_type = classified_lines[i + 1] if i < (
+            next_line, _ = classified_lines[i + 1] if i < (
                 len(classified_lines) - 1) else (None, None)
 
             if line_type == LineType.text and next_line == '1':

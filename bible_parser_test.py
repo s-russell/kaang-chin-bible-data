@@ -1,4 +1,4 @@
-from bible_parser import BibleParser, LineType
+from bible_parser import BibleParser, LineType, parse_verse_chunk
 import pytest
 
 
@@ -8,12 +8,21 @@ def test_line_classification():
         'Jesu Ei Nethe Ciimsak': LineType.text,
         '2THESALONI': LineType.text,
         '2 TIMOTHY': LineType.text,
+        'Chruek Pueng T0': LineType.text,
         "15Tovuen buengkom nang eila law pueng sanghma loitu ngaihna u, khanaphi akhuila thekha pueng hetu la kra kue. 16Am theihtu awn nam hmat hei yei. Hlingbum ah pucueng theih bit khoi u aw?, Hlingsingah theitheih bitkhoi u aw? 17Khatiein singveh poeng aveh la thei kue, khanaphi singthe poeng athela thei kue. 18Singveh athe la oeh thei hning ei, singthe aveh la oeh thei hning ei. 19Singpoeng aveh la oeh thei pueng tukpitta mei khuila fih ei. 20Khatiein am theih tu awn nam hmat hei yei.": LineType.numbered_text
     }
 
     for line_text, line_type in test_cases.items():
         bp = BibleParser('language')
         assert bp.classify(line_text) == line_type
+
+
+def test_parsing_verses_with_0():
+    verses = parse_verse_chunk('35Jesu kha khawpuei awn pungim tuah ceitveng ein am Sinakok ah theithang hei ein ramthu thang toek ein nenawi poeng avan awn hnatnak poeng cangsak kue. 36Chrangtu a hmuh heiah ren hei he kue, hatulatiah lueloi ayoe u ein oeh am thoem ei T0 awn toeng u kue. 37Khanei a hnuhruitu a toek hei, caangah ei dahe kue, khanaphi bibi chrangtu ken kue a ti. 38Khatiein a caangah nak khuila bibi u eitu tueih eila Bawipa eila tairue u.')
+    assert len(verses) == 4
+
+    verse = [v for v in verses if v.number == 36][0]
+    assert verse.text == 'Chrangtu a hmuh heiah ren hei he kue, hatulatiah lueloi ayoe u ein oeh am thoem ei T0 awn toeng u kue.'
 
 
 @pytest.fixture(scope='class')
@@ -66,7 +75,7 @@ def bible_parser_test_setup(request):
     bp = BibleParser('Kaang Chin')
 
     bible = bp.parse(lines)
-    books = bp.bible.books
+    books = bible.books
     request.cls.book1 = books[0]
     request.cls.book2 = books[1]
     request.cls.book3 = books[2]
