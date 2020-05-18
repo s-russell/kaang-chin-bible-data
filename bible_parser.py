@@ -7,8 +7,9 @@ from models.verse import Verse
 
 
 def parse_verse_chunk(chunk):
-    verse_tuples = re.findall('(\\d+)([\\D0]+)', chunk)
-    return [Verse(int(n), t.strip()) for n, t in verse_tuples]
+    verse_tuples = re.findall(
+        '(\\d+)([\\D0]+)', chunk)
+    return [Verse(int(n), t.strip().replace('sixsixsix', '666')) for n, t in verse_tuples]
 
 
 class LineType(Enum):

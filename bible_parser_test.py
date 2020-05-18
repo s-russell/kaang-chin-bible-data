@@ -70,7 +70,7 @@ def bible_parser_test_setup(request):
         'Second line of title text',
         '8Khatiein Aniei hamla thong ka krum awn nim Bawipa ei thuthang hmatsak nak ah oeh yak u, Fanpuhri ei huham awn thuthangni hamla khuikha nak ni hmuh puei u. 9Ni khui u ein, aciimla hringom meila an khue uh kha, nim bilawh la oeh kra ein, aruempueiah a mah ei ngaihtueh ein a boenak awn Jesu Chrih ah an peek uh ni. 10Khacawh ei boenak kha ni khui u pueng Jesu Chrih adanglaw nak awn tuboeih ah poeulaw kue. Ani ein sihnak phreh ein thuthangni awn hringnak awn aloet vang nak khuila ni cehpuei u kue. 11Khacawh ei hmokla kei, tikkhik peung awn thoei awn thutoek puenglah ni som  kue. 12Khacawh ei hmokla khaw vuuk khuikha ka hmuh, khanaphi oeh ka yak ein; hatulatiah hau ka yum ka hmat ein, khacawh ei hnuep hrila, a ni ka ap, ngoeng hning ngeila ka uepna ein, ani ka hmat ein ka yum kue.',
         'Yumnak Ah Betaknak',
-        '13Jesu Chrih ah awm pueng yumnak awn yongnak awn kei ah nam yak thutangtu nuetnak lah nam taak toeih ei. 14Nangah kan appei khawh, nim khuiah awm pueng Hmueichra Ciim awn, ngoengsou voe. 15A kratang na hmat mueihla Asia rammei a van nein ni cehta u ein, am ni khuiah Phygelus awn Hermogenes thumnih kue. 16Bawipa ein Onesiphorus imkhuiah rennak pese, hatulatiah a ni ein ni thoeuyau sak ciein, sirui awn an khih uh lah oeh yak kue. 17Rom khawah a ompoetta thanna ein ni yap ein ni hmulaw kue. 18Khacawh ei hnueppa Bawipa ei lamei rennak a hmuh eila Bawipa ein ani pese! Efisa khawah hatukruk la kei an bom a vehla nam hmat kue.',
+        '13Jesu Chrih ah awm pueng yumnak awn yongnak awn kei ah nam (sixsixsix) yak thutangtu nuetnak lah nam taak toeih ei. 14Nangah kan appei khawh, nim khuiah awm pueng Hmueichra Ciim awn, ngoengsou voe. 15A kratang na hmat mueihla Asia rammei a van nein ni cehta u ein, am ni khuiah Phygelus awn Hermogenes thumnih kue. 16Bawipa ein Onesiphorus imkhuiah rennak pese, hatulatiah a ni ein ni thoeuyau sak ciein, sirui awn an khih uh lah oeh yak kue. 17Rom khawah a ompoetta thanna ein ni yap ein ni hmulaw kue. 18Khacawh ei hnueppa Bawipa ei lamei rennak a hmuh eila Bawipa ein ani pese! Efisa khawah hatukruk la kei an bom a vehla nam hmat kue.',
     ]
 
     bp = BibleParser('Kaang Chin')
@@ -110,3 +110,8 @@ class TestBibleParser:
         assert self.book3.get_chapter(1).get_verse(1).title == None
         assert self.book3.get_chapter(1).get_verse(
             8).title == '\n'.join(self.lines[38:40])
+
+    def test_mark_of_beast(self):
+        assert self.book3.get_chapter(1).get_verse(
+            13).text == 'Jesu Chrih ah awm pueng yumnak awn yongnak awn kei ah nam (666) yak thutangtu nuetnak lah nam taak toeih ei.'
+        assert len(self.book3.get_chapter(1).verses) == 18
