@@ -1,4 +1,5 @@
 from bible_parser import BibleParser, LineType, parse_verse_chunk
+from validation import validate_sequence
 import pytest
 
 
@@ -23,6 +24,51 @@ def test_parsing_verses_with_0():
 
     verse = [v for v in verses if v.number == 36][0]
     assert verse.text == 'Chrangtu a hmuh heiah ren hei he kue, hatulatiah lueloi ayoe u ein oeh am thoem ei T0 awn toeng u kue.'
+
+
+def test_verse_sequence_validation_missing_verse():
+    seq = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13]
+    ok, issues = validate_sequence(seq)
+    assert not ok
+    assert issues == {
+        'missing': [5, 10]
+    }
+
+
+def test_verse_sequence_validation_unexpected_verse():
+    seq = [1, 2, 3, 4, 19, 6, 7, 8, 9, 10, 11, 12, 3, 14, 15]
+    ok, issues = validate_sequence(seq)
+    assert not ok
+    assert len(issues['unexpected']) == 2
+    for issue in issues['unexpected']:
+        assert issue in [
+            {'expected': 5, 'actual': 19},
+            {'expected': 13, 'actual': 3}
+        ]
+
+
+def test_verse_sequence_validation_mixed_issues():
+    seq = [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 2, 13, 14, 16, 17, 8, 19, 20]
+    ok, issues = validate_sequence(seq)
+    assert not ok
+    assert issues['missing'] == [7, 15]
+    assert len(issues['unexpected']) == 2
+    for issue in issues['unexpected']:
+        assert issue in [
+            {'expected': 12, 'actual': 2},
+            {'expected': 18, 'actual': 8}
+        ]
+
+
+def test_sequence_validation_double_number():
+    seq = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 11, 12, 13, 14, 15, 16, 17]
+    ok, issues = validate_sequence(seq)
+    assert not ok
+    assert issues['missing'] == [10]
+    for issue in issues['unexpected']:
+        assert issue in [
+            {'expected': 12, 'actual': 11}
+        ]
 
 
 @pytest.fixture(scope='class')
